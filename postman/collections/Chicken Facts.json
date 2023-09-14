@@ -1,0 +1,491 @@
+{
+	"info": {
+		"_postman_id": "600b86e4-b1cb-4195-8063-67508a5bab8f",
+		"name": "Chicken Facts",
+		"description": "A clever way to start your day! Pairs perfectly with Chick-fil-A Chick-n-Minis™.\n\nContact Support:\n Name: Contact Name\n Email: contact@email.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "25998796-600b86e4-b1cb-4195-8063-67508a5bab8f"
+	},
+	"item": [
+		{
+			"name": "facts",
+			"item": [
+				{
+					"name": "Get Facts Metadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "23f8c70a-1908-4589-a13c-b8aedf9e8d71",
+								"exec": [
+									"const schema = {",
+									"    \"properties\": {",
+									"        \"count\": {",
+									"            \"type\": \"integer\"",
+									"        },",
+									"        \"last_counted\": {",
+									"            \"type\": \"string\"",
+									"        }",
+									"    }",
+									"};",
+									"",
+									"pm.test('Schema is valid', function () {",
+									"    pm.response.to.have.jsonSchema(schema);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "9fc94c82-6a35-4705-b66d-0fe84fdeb40f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facts.json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facts.json"
+							]
+						},
+						"description": "In order to retrieve a count of the facts available and last updated, you can hit this end point.\n\nFacts start at ID `1`, and never have a gap. So, you could use `1 - {count}` as a range for a random number generator to pick an individual fact."
+					},
+					"response": [
+						{
+							"id": "5111d293-aeae-4d06-a32d-35b68ba20bfc",
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "https://chickenfacts.io/api/v1/facts.json",
+									"protocol": "https",
+									"host": [
+										"chickenfacts",
+										"io"
+									],
+									"path": [
+										"api",
+										"v1",
+										"facts.json"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"count\": 36,\n  \"last_counted\": \"2019-06-03\"\n}"
+						},
+						{
+							"id": "98971f60-a924-4c09-a850-947687203c2a",
+							"name": "Server exception",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/facts.json",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"facts.json"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "unsuccessful"
+						}
+					]
+				},
+				{
+					"name": "Retrieve specific fact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1e74a2ea-bbfe-4586-92ef-5c4881212ae5",
+								"exec": [
+									"var x = pm.collectionVariables.get(\"id\");",
+									"",
+									"if(x<50){",
+									"    x++;",
+									"}else{",
+									"    x=1;",
+									"}",
+									"",
+									"pm.collectionVariables.set(\"id\", x);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4ed5b9ee-de24-4e2f-9d3a-2ae2341ed577",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facts/{{id}}.json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facts",
+								"{{id}}.json"
+							]
+						},
+						"description": "To retrieve a specific fact, you need to know the `ID` of the fact.  Then, use this end point to retrieve the details."
+					},
+					"response": [
+						{
+							"id": "a554d8db-1cf6-4881-9f4a-805a7f3e26e4",
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "https://chickenfacts.io/api/v1/facts/12.json",
+									"protocol": "https",
+									"host": [
+										"chickenfacts",
+										"io"
+									],
+									"path": [
+										"api",
+										"v1",
+										"facts",
+										"12.json"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 12,\n  \"fact\": \"A hen has to eat about four pounds of feed to make one dozen eggs.\",\n  \"source\": \"https://www.thefactsite.com/chicken-facts/\",\n  \"published\": \"2019-06-02\"\n}"
+						},
+						{
+							"id": "cdc72d34-1b70-46f2-9401-48c32d3c646b",
+							"name": "Server exception",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/facts/{{id}}.json",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"facts",
+										"{{id}}.json"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "unsuccessful"
+						}
+					]
+				},
+				{
+					"name": "List of facts",
+					"id": "35ead0e2-d19f-41f4-9c4d-c8fa3385ae42",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facts/order/:sort-by/:sort-dir/page/{{page}}.json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facts",
+								"order",
+								":sort-by",
+								":sort-dir",
+								"page",
+								"{{page}}.json"
+							],
+							"variable": [
+								{
+									"key": "sort-by",
+									"value": "id"
+								},
+								{
+									"key": "sort-dir",
+									"value": "asc"
+								}
+							]
+						},
+						"description": "This list of facts end point implements required pagination.  You should always start at page 1, and it will page for as long as the `next` url is non-null.  There is a limited amount of ordering/sorting at this time.  There are always up to 10 results per page."
+					},
+					"response": [
+						{
+							"id": "9910b2a1-7c84-429a-9057-9e2cf70c47f4",
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "https://chickenfacts.io/api/v1/facts/order/:sort-by/:sort-dir/page/1.json",
+									"protocol": "https",
+									"host": [
+										"chickenfacts",
+										"io"
+									],
+									"path": [
+										"api",
+										"v1",
+										"facts",
+										"order",
+										":sort-by",
+										":sort-dir",
+										"page",
+										"1.json"
+									],
+									"variable": [
+										{
+											"key": "sort-by"
+										},
+										{
+											"key": "sort-dir"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"facts\": [\n    {\n      \"id\": 12,\n      \"fact\": \"A hen has to eat about four pounds of feed to make one dozen eggs.\",\n      \"source\": \"https://www.thefactsite.com/chicken-facts/\",\n      \"published\": \"2019-06-02\"\n    }\n  ],\n  \"next\": \"/api/v1/facts/order/id/asc/page/3.json\",\n  \"prev\": \"/api/v1/facts/order/id/asc/page/1.json\"\n}"
+						},
+						{
+							"id": "fbd8c12e-8b92-4c03-a331-64afd67611a3",
+							"name": "Server exception",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"description": "Added as a part of security scheme: basic",
+										"key": "Authorization",
+										"value": "Basic <credentials>"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/facts/order/:sort-by/:sort-dir/page/{{page}}.json",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"facts",
+										"order",
+										":sort-by",
+										":sort-dir",
+										"page",
+										"{{page}}.json"
+									],
+									"variable": [
+										{
+											"key": "sort-by"
+										},
+										{
+											"key": "sort-dir"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "unsuccessful"
+						}
+					]
+				}
+			],
+			"id": "40f7b765-916d-4bab-a66c-a423c57e4775"
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{basicAuthUsername}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{basicAuthPassword}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7c7942be-7d49-400f-a560-ddd31aaa768e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0f086dbd-1681-4e3e-8892-5327c6236c89",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Response time is less than 400ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(400);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c9bf97bb-3561-455c-b9cc-5f668729e7b4",
+			"key": "baseUrl",
+			"value": "https://chickenfacts.io/api/v1"
+		},
+		{
+			"id": "47e02a11-6298-49e8-ae8d-1bb444f98484",
+			"key": "page",
+			"value": "1"
+		},
+		{
+			"id": "c81bd7f7-e7c0-4af8-b378-e0e01d73de7e",
+			"key": "id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

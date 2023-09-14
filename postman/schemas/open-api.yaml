@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: Chicken Facts 
+  version: '1.0'
+  description: A clever way to start your day! Pairs perfectly with Chick-fil-A Chick-n-Minis™.
+  contact:
+    name: Contact Name
+    url: https://chickenfacts.io
+    email: contact@email.com
+  license:
+    name: license
+    url: https://chickenfacts.io
+  termsOfService: yes
+servers:
+  - url: 'https://chickenfacts.io/api/v1'
+    description: Production
+paths:
+  /facts.json:
+    get:
+      summary: Get Facts Metadata
+      tags:
+        - facts
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    minimum: 1
+                    example: 36
+                    description: The total count of facts.
+                  last_counted:
+                    type: string
+                    format: date
+                    example: '2019-06-03'
+                    description: The last time this count was updated.
+                required:
+                  - count
+                  - last_counted
+              examples:
+                Example response:
+                  value:
+                    count: 36
+                    last_counted: '2019-06-03'
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              example: unsuccessful
+      operationId: get-facts.json
+      description: |-
+        In order to retrieve a count of the facts available and last updated, you can hit this end point.
+
+        Facts start at ID `1`, and never have a gap. So, you could use `1 - {count}` as a range for a random number generator to pick an individual fact.
+  '/facts/{id}.json':
+    parameters:
+      - schema:
+          type: integer
+          format: int64
+          minimum: 1
+        name: id
+        in: path
+        required: true
+        description: The fact ID
+        example: 12
+    get:
+      summary: Retrieve specific fact
+      tags:
+        - facts
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fact'
+              examples:
+                Example for ID 12:
+                  value:
+                    id: 12
+                    fact: A hen has to eat about four pounds of feed to make one dozen eggs.
+                    source: 'https://www.thefactsite.com/chicken-facts/'
+                    published: '2019-06-02'
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              example: unsuccessful
+      operationId: get-facts-id-.json
+      description: 'To retrieve a specific fact, you need to know the `ID` of the fact.  Then, use this end point to retrieve the details.'
+  '/facts/order/{sort-by}/{sort-dir}/page/{page}.json':
+    parameters:
+      - schema:
+          type: string
+          enum:
+            - id
+        name: sort-by
+        in: path
+        required: true
+        description: Column to sort by
+        example: id
+      - schema:
+          type: string
+          enum:
+            - asc
+            - desc
+        name: sort-dir
+        in: path
+        required: true
+        description: Direction to sort by
+        example: asc
+      - schema:
+          type: integer
+          format: int64
+          minimum: 1
+        name: page
+        in: path
+        required: true
+        description: Page number of results
+        example: 1
+    get:
+      summary: List of facts
+      tags:
+        - facts
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  facts:
+                    type: array
+                    minItems: 1
+                    uniqueItems: true
+                    items:
+                      $ref: '#/components/schemas/Fact'
+                  next:
+                    type: string
+                    example: /api/v1/facts/order/id/asc/page/3.json
+                    description: The URI of the next result set. (Will not contain the domain name)
+                    format: uri-reference
+                    nullable: true
+                  prev:
+                    type: string
+                    example: /api/v1/facts/order/id/asc/page/1.json
+                    description: The URI of the previous result set. (Will not contain the domain name)
+                    format: uri-reference
+                    nullable: true
+                required:
+                  - facts
+                  - next
+                  - prev
+              examples:
+                'Example of Page 2 (with a single fact, normally 10)':
+                  value:
+                    facts:
+                      - id: 12
+                        fact: A hen has to eat about four pounds of feed to make one dozen eggs.
+                        source: 'https://www.thefactsite.com/chicken-facts/'
+                        published: '2019-06-02'
+                    next: /api/v1/facts/order/id/asc/page/3.json
+                    prev: /api/v1/facts/order/id/asc/page/1.json
+        '500':
+          description: Server exception
+          content:
+            application/json:
+              example: unsuccessful
+      operationId: get-facts-order-sort-by-sort-dir-page-page-.json
+      description: 'This list of facts end point implements required pagination.  You should always start at page 1, and it will page for as long as the `next` url is non-null.  There is a limited amount of ordering/sorting at this time.  There are always up to 10 results per page.'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Fact:
+      title: Fact
+      x-stoplight:
+        id: qk400ttr6w7ns
+      type: object
+      description: The fact model
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 12
+          minimum: 1
+        fact:
+          type: string
+          example: A hen has to eat about four pounds of feed to make one dozen eggs.
+          minLength: 1
+          maxLength: 65535
+        source:
+          type: string
+          format: uri
+          example: 'https://www.thefactsite.com/chicken-facts/'
+          minLength: 1
+          description: The source website of the chicken fact.
+        published:
+          type: string
+          format: date
+          example: '2019-06-02'
+          description: 'The date this fact was retrieved, verified and published.'
+      required:
+        - id
+        - fact
+        - source
+        - published
+tags:
+  - name: facts
+security:
+  - BasicAuth: []
