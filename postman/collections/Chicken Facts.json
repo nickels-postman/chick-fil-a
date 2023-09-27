@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "600b86e4-b1cb-4195-8063-67508a5bab8f",
 		"name": "Chicken Facts",
-		"description": "A clever way to start your day! Pairs perfectly with Chick-fil-A Chick-n-Minis™.\n\nContact Support:  \nName: Contact Name  \nEmail: [contact@email.com](https://mailto:contact@email.com)\n\n<img src=\"https://content.pstmn.io/992f7943-0bd3-4a1e-9220-556b8744c706/c2FuZHdpY2hfZ2lwaHkuZ2lm\" alt=\"\" height=\"480\" width=\"480\">",
+		"description": "A clever way to start your day! Pairs perfectly with Chick-fil-A Chick-n-Minis™.\n\nContact Support:  \nName: Contact Name  \nEmail: [contact@email.com](https://mailto:contact@email.com)\n\n<img src=\"https://content.pstmn.io/992f7943-0bd3-4a1e-9220-556b8744c706/c2FuZHdpY2hfZ2lwaHkuZ2lm\" width=\"480\" height=\"480\">",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "25998796-600b86e4-b1cb-4195-8063-67508a5bab8f"
 	},
