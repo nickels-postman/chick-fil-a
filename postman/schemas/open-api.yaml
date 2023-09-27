@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Chicken Facts 
+  title: Chicken Facts API
   version: '1.0'
   description: A clever way to start your day! Pairs perfectly with Chick-fil-A Chick-n-Minis™.
   contact:
